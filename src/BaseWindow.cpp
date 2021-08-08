@@ -36,10 +36,10 @@ BOOL BaseWindow::Create(
 	PCWSTR lpWindowName,
 	DWORD dwStyle,
 	DWORD dwExStyle,
-	int x,
-	int y,
 	int nWidth,
 	int nHeight,
+	int x,
+	int y,
 	HWND hWndParent,
 	HMENU hMenu)
 {
