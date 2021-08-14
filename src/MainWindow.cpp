@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "resource/resource.h"
 
 MainWindow::MainWindow(HINSTANCE hInstance, LPCWSTR ClassName, int nCmdShow)
 	: m_hInstance(hInstance), m_className(ClassName), m_nCmdShow(nCmdShow) 
@@ -63,6 +64,8 @@ BOOL MainWindow::Create(
 	wc.lpfnWndProc = BaseWindow::WindowProc;
 	wc.hInstance = m_hInstance;
 	wc.lpszClassName = GetClassName();
+	wc.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
+	wc.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 
 	if (RegisterClass(&wc)) 
 	{ 
