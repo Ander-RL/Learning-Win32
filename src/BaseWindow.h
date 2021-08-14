@@ -18,11 +18,7 @@ public:
 protected:
 
 	virtual PCWSTR  GetClassName() const = 0;
-	virtual LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
-	{
-		OutputDebugString(L"BASE WINDOW HandleMessage\n");
-		return 0; 
-	};
+	virtual LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 
 	HWND m_hwnd;
 };
