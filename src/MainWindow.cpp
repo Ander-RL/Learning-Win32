@@ -15,12 +15,17 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_LBUTTONDOWN:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_LBUTTONDOWN\n");
 		MessageBox(m_hwnd, L"TEXT", L"CAPTION", MB_OKCANCEL);
+		break;
 
 	case WM_CLOSE:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_CLOSE\n");
 		DestroyWindow(m_hwnd);
+		return 0;
 
 	case WM_DESTROY:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_DESTROY\n");
 		PostQuitMessage(0);
 		return 0;
 
@@ -34,6 +39,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 
 	default:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> DefWindowProc\n");
 		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 	}
 	return TRUE;
