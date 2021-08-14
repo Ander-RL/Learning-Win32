@@ -30,7 +30,7 @@ LRESULT CALLBACK BaseWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 		OutputDebugString(L"BASE WINDOW pBASEWINDOW\n");
 
 		pBaseWindow->m_hwnd = hwnd;
-		lResult = pBaseWindow->HandleMessage(hwnd, uMsg, wParam, lParam);
+		lResult = pBaseWindow->HandleMessage(uMsg, wParam, lParam);
 	}
 	else
 	{

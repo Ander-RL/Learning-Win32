@@ -8,7 +8,7 @@ MainWindow::MainWindow(HINSTANCE hInstance, LPCWSTR ClassName, int nCmdShow)
 
 PCWSTR  MainWindow::GetClassName() const { return m_className; }
 
-LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE\n");
 
