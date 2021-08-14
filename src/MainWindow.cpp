@@ -14,6 +14,9 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
 	switch (uMsg)
 	{
+	case WM_LBUTTONDOWN:
+		MessageBox(m_hwnd, L"TEXT", L"CAPTION", MB_OKCANCEL);
+
 	case WM_CLOSE:
 		DestroyWindow(m_hwnd);
 
@@ -30,8 +33,8 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	}
 	return 0;
 
-	//default:
-	//	return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+	default:
+		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 	}
 	return TRUE;
 }
