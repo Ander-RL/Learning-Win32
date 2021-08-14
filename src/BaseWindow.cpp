@@ -10,58 +10,35 @@ HWND BaseWindow::Window() const { return m_hwnd; }
 
 LRESULT CALLBACK BaseWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg) {
-	case (WM_NCCREATE):
+	OutputDebugString(L"BASE WINDOW WindowProc\n");
+
+	if (uMsg == WM_NCCREATE)
 	{
+		OutputDebugString(L"BASE WINDOW WindowProc -> WM_NCCREATE\n");
+
 		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
 		BaseWindow* pBaseWindow = (BaseWindow*)pCreate->lpCreateParams;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pBaseWindow);
+	}
+
+	BaseWindow* pBaseWindow = reinterpret_cast<BaseWindow*>(GetWindowLongW(hwnd, GWL_USERDATA));
+
+	LRESULT lResult;
+
+	if (pBaseWindow)
+	{
+		OutputDebugString(L"BASE WINDOW pBASEWINDOW\n");
 
 		pBaseWindow->m_hwnd = hwnd;
-		break;
+		lResult = pBaseWindow->HandleMessage(uMsg, wParam, lParam);
 	}
-
-	case (WM_DESTROY):
+	else
 	{
-		PostQuitMessage(0);
-	}
+		OutputDebugString(L"BASE WINDOW DefWindowProc\n");
 
-	default:
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		lResult = DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	return lResult;
 }
 
-BOOL BaseWindow::Create(
-	PCWSTR lpWindowName,
-	DWORD dwStyle,
-	DWORD dwExStyle,
-	int nWidth,
-	int nHeight,
-	int x,
-	int y,
-	HWND hWndParent,
-	HMENU hMenu)
-{
-	WNDCLASS wc = { 0 };
 
-	wc.lpfnWndProc = BaseWindow::WindowProc;
-	wc.hInstance = GetModuleHandle(NULL); // = hInstance de wWinMain
-	wc.lpszClassName = ClassName();
-
-	RegisterClass(&wc);
-
-	m_hwnd = CreateWindowEx(
-		dwExStyle, 
-		ClassName(), 
-		lpWindowName, 
-		dwStyle, 
-		x, y,
-		nWidth, nHeight, 
-		hWndParent, 
-		hMenu,
-		GetModuleHandle(NULL), 
-		this);
-
-	return (m_hwnd ? TRUE : FALSE);
-}
