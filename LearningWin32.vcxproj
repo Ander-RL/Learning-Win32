@@ -152,8 +152,18 @@
     <ClCompile Include="src\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\resource\resource.h" />
     <ClInclude Include="src\BaseWindow.h" />
     <ClInclude Include="src\MainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\resource\LearningWin32.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\resource\icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\resource\LearningWin32.aps" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
