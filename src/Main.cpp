@@ -5,7 +5,7 @@
 #include "MainWindow.h"
 
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     MainWindow win(hInstance, L"MainWindow", nCmdShow);
 
