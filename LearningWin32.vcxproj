@@ -160,6 +160,7 @@
     <ResourceCompile Include="src\resource\LearningWin32.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\Downloads\idi_icon1.ico" />
     <Image Include="src\resource\icon1.ico" />
   </ItemGroup>
   <ItemGroup>

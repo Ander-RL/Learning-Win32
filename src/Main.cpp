@@ -10,12 +10,11 @@
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
     MainWindow win(hInstance, L"MainWindow", nCmdShow);
-    win.Create(L"Learn to Program Windows", WS_OVERLAPPEDWINDOW, 0, 1024, 720);
 
-    //if (!win.Create(L"Learn to Program Windows", WS_OVERLAPPEDWINDOW, 0, 1024, 720))
-    //{
-    //    return 0;
-    //}
+    if (!win.Create(L"Learn to Program Windows", WS_OVERLAPPEDWINDOW, 0, 1024, 720))
+    {
+        return 0;
+    }
 
     // Run the message loop.
 

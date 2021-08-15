@@ -45,6 +45,9 @@
     <Image Include="src\resource\icon1.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\Downloads\idi_icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\resource\LearningWin32.aps" />

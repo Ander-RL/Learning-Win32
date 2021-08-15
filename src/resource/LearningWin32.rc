@@ -56,6 +56,7 @@ BEGIN
     BEGIN
         MENUITEM "New",                         ID_FILE_NEW
         MENUITEM "Open",                        ID_FILE_OPEN
+        MENUITEM "Exit",                        ID_FILE_EXIT
     END
     MENUITEM "Edit",                        0
 END

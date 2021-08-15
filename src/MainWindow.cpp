@@ -15,9 +15,22 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	switch (uMsg)
 	{
-	case WM_LBUTTONDOWN:
-		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_LBUTTONDOWN\n");
-		MessageBox(m_hwnd, L"TEXT", L"CAPTION", MB_OKCANCEL);
+	case WM_COMMAND: // Menu options
+		switch (LOWORD(wParam)) 
+		{
+		case ID_FILE_NEW:
+			MessageBox(m_hwnd, L"New file", L"Menu option New", MB_OK | MB_ICONASTERISK);
+			break;
+
+		case ID_FILE_OPEN:
+			MessageBox(m_hwnd, L"Menu option Open", L"Open", MB_OK | MB_ICONASTERISK);
+			break;
+
+		case ID_FILE_EXIT:
+			int msgBoxID = MessageBox(m_hwnd, L"Are you sure you want to exit?", L"Exit", MB_OKCANCEL | MB_ICONHAND);
+			if (msgBoxID == IDOK) PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+			break;
+		}
 		break;
 
 	case WM_CLOSE:
@@ -66,6 +79,7 @@ BOOL MainWindow::Create(
 	wc.lpszClassName = GetClassName();
 	wc.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	wc.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	//wc.hIcon = (HICON)LoadImage(m_hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
 
 	if (RegisterClass(&wc)) 
 	{ 
@@ -93,6 +107,16 @@ BOOL MainWindow::Create(
 		OutputDebugString(L"--------- Window Creation Failed ---------\n");
 		ExitProcess(0);
 	}
+
+	// Centering the window in the screen
+	RECT rc;
+
+	GetWindowRect(m_hwnd, &rc);
+
+	int xPos = (GetSystemMetrics(SM_CXSCREEN) - rc.right) / 2;
+	int yPos = (GetSystemMetrics(SM_CYSCREEN) - rc.bottom) / 2;
+
+	SetWindowPos(m_hwnd, HWND_TOP, xPos, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 	ShowWindow(m_hwnd, m_nCmdShow);
 	UpdateWindow(m_hwnd);
