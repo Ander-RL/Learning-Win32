@@ -2,8 +2,6 @@
 #define UNICODE
 #endif 
 
-//#include <windows.h>
-#include <shobjidl.h>
 #include "MainWindow.h"
 
 
