@@ -1,63 +1,15 @@
 #include "MainWindow.h"
 #include "resource/resource.h"
 
+#include <string>
+
 MainWindow::MainWindow(HINSTANCE hInstance, LPCWSTR ClassName, int nCmdShow)
-	: m_hInstance(hInstance), m_className(ClassName), m_nCmdShow(nCmdShow) 
+	: m_hInstance(hInstance), m_className(ClassName), m_nCmdShow(nCmdShow)
 {
 	OutputDebugString(L"MAIN WINDOW CONSTRUCTOR\n");
 }
 
 PCWSTR  MainWindow::GetClassName() const { return m_className; }
-
-LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE\n");
-
-	switch (uMsg)
-	{
-	case WM_COMMAND: // Menu options
-		switch (LOWORD(wParam)) 
-		{
-		case ID_FILE_NEW:
-			MessageBox(m_hwnd, L"New file", L"Menu option New", MB_OK | MB_ICONASTERISK);
-			break;
-
-		case ID_FILE_OPEN:
-			MessageBox(m_hwnd, L"Menu option Open", L"Open", MB_OK | MB_ICONASTERISK);
-			break;
-
-		case ID_FILE_EXIT:
-			int msgBoxID = MessageBox(m_hwnd, L"Are you sure you want to exit?", L"Exit", MB_OKCANCEL | MB_ICONHAND);
-			if (msgBoxID == IDOK) PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_CLOSE\n");
-		DestroyWindow(m_hwnd);
-		return 0;
-
-	case WM_DESTROY:
-		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_DESTROY\n");
-		PostQuitMessage(0);
-		return 0;
-
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(m_hwnd, &ps);
-		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-		EndPaint(m_hwnd, &ps);
-	}
-	return 0;
-
-	default:
-		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> DefWindowProc\n");
-		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
-	}
-	return TRUE;
-}
 
 BOOL MainWindow::Create(
 	PCWSTR lpWindowName,
@@ -81,9 +33,9 @@ BOOL MainWindow::Create(
 	wc.hIcon = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	//wc.hIcon = (HICON)LoadImage(m_hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
 
-	if (RegisterClass(&wc)) 
-	{ 
-		OutputDebugString(L"MAIN WINDOW CREATE CLASS REGISTERED\n"); 
+	if (RegisterClass(&wc))
+	{
+		OutputDebugString(L"MAIN WINDOW CREATE CLASS REGISTERED\n");
 	}
 	else
 	{
@@ -122,4 +74,111 @@ BOOL MainWindow::Create(
 	UpdateWindow(m_hwnd);
 
 	return (m_hwnd ? TRUE : FALSE);
+}
+
+LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE\n");
+
+	switch (uMsg)
+	{
+	case WM_COMMAND: // Menu options
+	{
+		switch (LOWORD(wParam))
+		{
+		case ID_FILE_NEW:
+			MessageBox(m_hwnd, L"New file", L"Menu option New", MB_OK | MB_ICONASTERISK);
+			break;
+
+		case ID_FILE_OPEN:
+			MessageBox(m_hwnd, L"Menu option Open", L"Open", MB_OK | MB_ICONASTERISK);
+			break;
+
+		case ID_FILE_EXIT:
+		{
+			int msgBoxID = MessageBox(m_hwnd, L"Are you sure you want to exit?", L"Exit", MB_OKCANCEL | MB_ICONHAND);
+			if (msgBoxID == IDOK) PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+		}
+		break;
+
+		case ID_HELP_SHOWDIALOGBOX:
+		{
+			OutputDebugString(L"MAIN WINDOW SHOWDIALOGBOX\n");
+
+			int ret = DialogBox(
+				m_hInstance,
+				MAKEINTRESOURCE(IDD_DIALOG1),
+				m_hwnd,
+				(DLGPROC)AboutDlgProc);
+
+			if (ret == IDOK) {
+				MessageBox(m_hwnd, L"Dialog exited with IDOK.", L"Notice",
+					MB_OK | MB_ICONINFORMATION);
+			}
+			else if (ret == IDCANCEL) {
+				MessageBox(m_hwnd, L"Dialog exited with IDCANCEL.", L"Notice",
+					MB_OK | MB_ICONINFORMATION);
+			}
+			else if (ret == -1) {
+				MessageBox(m_hwnd, L"Dialog failed!", L"Error",
+					MB_OK | MB_ICONINFORMATION);
+			}
+		}
+		break;
+		}
+		break;
+	}
+
+	case WM_CLOSE:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_CLOSE\n");
+		DestroyWindow(m_hwnd);
+		return 0;
+
+	case WM_DESTROY:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> WM_DESTROY\n");
+		PostQuitMessage(0);
+		return 0;
+
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(m_hwnd, &ps);
+		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+		EndPaint(m_hwnd, &ps);
+	}
+	return 0;
+
+	default:
+		OutputDebugString(L"MAIN WINDOW HANDLEMESSAGE -> DefWindowProc\n");
+		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+	}
+	return TRUE;
+}
+
+BOOL CALLBACK MainWindow::AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+	OutputDebugString(L"MAIN WINDOW AboutDlgProc\n");
+
+	switch (Message)
+	{
+	case WM_INITDIALOG:
+		// Do any process before dialog is shown
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			EndDialog(hwnd, IDOK);
+			return TRUE;
+		case IDCANCEL:
+			EndDialog(hwnd, IDCANCEL);
+			return TRUE;
+		}
+		break;
+
+	default:
+		return FALSE;
+	}
+	return FALSE;
 }

@@ -1,7 +1,5 @@
 #include "BaseWindow.h"
 
-
-
 BaseWindow::BaseWindow() : m_hwnd(NULL) { }
 
 BaseWindow::~BaseWindow() { DestroyWindow(m_hwnd); }
@@ -21,7 +19,7 @@ LRESULT CALLBACK BaseWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pBaseWindow);
 	}
 
-	BaseWindow* pBaseWindow = reinterpret_cast<BaseWindow*>(GetWindowLongW(hwnd, GWL_USERDATA));
+	BaseWindow* pBaseWindow = reinterpret_cast<BaseWindow*>(GetWindowLongPtr(hwnd, GWL_USERDATA));
 
 	LRESULT lResult;
 
@@ -40,5 +38,3 @@ LRESULT CALLBACK BaseWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 	}
 	return lResult;
 }
-
-

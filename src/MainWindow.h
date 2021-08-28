@@ -29,5 +29,6 @@ public:
 	virtual PCWSTR  GetClassName() const;
 
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-
+	
+	static BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 };
